@@ -14,7 +14,7 @@ export const MovieView = ({ movie, onBackClick }) => {
         </div>
         <div>
           <span>Duration: </span>
-          <span>{movie.Duration + " minutes"}</span>
+          <span>{movie.Duration} minutes</span>
         </div>
         <div>
           <span>Genre: </span>
