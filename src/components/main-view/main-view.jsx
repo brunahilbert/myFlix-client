@@ -17,7 +17,7 @@ export const MainView = () => {
             .then((data) => {
                 setMovies(data);
             });
-    },);
+    });
 
     if (selectedMovie) {
         let similarMovies = movies.filter(movie => movie.Genre.Name === selectedMovie.Genre.Name && movie._id !== selectedMovie._id);
