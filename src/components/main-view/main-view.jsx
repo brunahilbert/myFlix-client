@@ -18,32 +18,39 @@ export const MainView = () => {
                 setMovies(data);
             });
     },);
+
+    if (selectedMovie) {
+        let similarMovies = movies.filter(movie => movie.Genre.Name === selectedMovie.Genre.Name && movie._id !== selectedMovie._id);
+        return (
+            <>
+                <MovieView movie={selectedMovie} onBackClick={() => { setSelectedMovie(null); }} />
+                <hr />
+                <h2>Similar Movies:</h2>
+                {similarMovies.map((movie) => (
+                    <MovieCard
+                        key={movie._id}
+                        movie={movie}
+                        onMovieClick={(newSelectedMovie) => { setSelectedMovie(newSelectedMovie); }} />
+                ))}
+            </>
+        );
     }
-  ]);
 
-  const [selectedMovie, setSelectedMovie] = useState(null);
+    if (movies.length === 0) {
+        return <div>The list is empty!</div>;
+    }
 
-  if (selectedMovie) {
     return (
-      <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
+        <div>
+            {movies.map((movie) => (
+                <MovieCard
+                    key={movie._id}
+                    movie={movie}
+                    onMovieClick={(newSelectedMovie) => {
+                        setSelectedMovie(newSelectedMovie);
+                    }}
+                />
+            ))}
+        </div>
     );
-  }
-
-  if (movies.length === 0) {
-    return <div>The list is empty!</div>;
-  }
-
-  return (
-    <div>
-      {movies.map((movie) => (
-        <MovieCard
-          key={movie._id}
-          movie={movie}
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
-          }}
-        />
-      ))}
-    </div>
-  );
 };
