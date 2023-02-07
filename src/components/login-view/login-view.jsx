@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+
+import './login-view.scss';
 
 export const LoginView = ({ onLoggedIn }) => {
     const [Username, setUsername] = useState("");
@@ -53,9 +56,9 @@ export const LoginView = ({ onLoggedIn }) => {
                     localStorage.setItem("user", JSON.stringify(data.user));
                     localStorage.setItem("token", data.token);
                     onLoggedIn(data.user, data.token);
-                  } else {
+                } else {
                     alert("No such user");
-                  }
+                }
             })
             .catch((e) => {
                 alert("Something went wrong");
@@ -63,27 +66,33 @@ export const LoginView = ({ onLoggedIn }) => {
 
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Username:
-                <input
-                    type="text"
-                    value={Username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    minLength="5"
-                    required
-                />
-            </label>
-            <label>
-                Password:
-                <input
-                    type="Password"
-                    value={Password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-            </label>
-            <button type="submit">Submit</button>
-        </form>
+        <>
+            <h2>Login</h2>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="py-2" controlId="formUsername">
+                    <Form.Label>Username:</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={Username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        minLength="5"
+                        required
+                        placeholder="Enter your username"
+                    />
+                </Form.Group>
+
+                <Form.Group className="py-2" controlId="formPassword">
+                    <Form.Label>Password:</Form.Label>
+                    <Form.Control
+                        type="Password"
+                        value={Password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        placeholder="Enter your password"
+                    />
+                </Form.Group>
+                <Button type="submit">Submit</Button>
+            </Form>
+        </>
     );
 };
