@@ -10,28 +10,71 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import './main-view.scss'
 
-// export = exposes the component, this makes it available for use by other components, modules, and files
 export const MainView = () => {
     // the function assigned returns the visual representation of the component—in other words, the function renders what will be displayed on the screen.
     const [movies, setMovies] = useState([]);
-    const [selectedMovie, setSelectedMovie] = useState(null);
+    // const [selectedMovie, setSelectedMovie] = useState(null);
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
+    const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+    const clearStoredUser = () => {
+        setUser(null);
+        setToken(null);
+        localStorage.clear();
+    }
+
+    const onLoggedIn = (username, token) => {
+        setUser(username);
+        setToken(token);
+    }
 
     useEffect(() => {
         if (!token) {
             return;
         }
-        fetch("https://my-movie-box.herokuapp.com/movies", {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setMovies(data);
-            });
+
+        const getMovies = (token) => {
+            fetch("https://my-movie-box.herokuapp.com/movies", {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    setMovies(data);
+                });
+        }
+        getMovies(token)
+
+        const getUser = (token) => {
+            fetch(`https://my-movie-box.herokuapp.com/users/${storedUser.Username}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    setFavoriteMovies(data.FavoriteMovies);
+                    setUser(data)
+                });
+        }
+
+        getUser(token)
     }, [token]);
+
+    const setFavorite = (isFavorite, movie) => {
+        const method = isFavorite ? 'POST' : 'DELETE'
+        fetch(`https://my-movie-box.herokuapp.com/user/${storedUser.Username}/movies/${movie._id}`, {
+            method,
+            headers: { Authorization: `Bearer ${storedToken}` }
+        })
+            .then(() => {
+                if (isFavorite) {
+                    setFavoriteMovies([...favoriteMovies, movie._id]);
+                } else {
+                    setFavoriteMovies(favoriteMovies.filter(m => m != movie._id));
+                }
+            });
+    }
 
     return (
         <BrowserRouter>
