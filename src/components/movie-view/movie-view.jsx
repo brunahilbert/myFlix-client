@@ -1,13 +1,15 @@
 import PropTypes from "prop-types";
-import { Button, Card } from "react-bootstrap";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 
 import './movie-view.scss';
 
-export const MovieView = ({ movie, onBackClick }) => {
-    return (
+export const MovieView = ({ movies, favoriteMovies, setFavorite }) => {
 
+    const { movieId } = useParams();
+    const movie = movies.find((m) => m._id === movieId);
 
     const isFavorite = favoriteMovies.includes(movie._id)
 
@@ -45,12 +47,16 @@ export const MovieView = ({ movie, onBackClick }) => {
                                 <span className="fw-bold">Director: </span>
                                 <span>{movie.Director.Name}</span><br />
                             </div>
+                            <div>
+                                <Link to={`/`}>
+                                    <Button className="back-button">Back</Button>
+                                </Link>
+                                <Button className="btn-primary mx-3" onClick={() => setFavorite(!isFavorite, movie)}>{isFavorite ? '★' : '☆'}</Button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Button onClick={onBackClick} className="mx-auto back-button">Back</Button>
-        </div>
 
             <Row className="similar-movies justify-content-sm-center w-100">
                 <hr />
@@ -67,7 +73,7 @@ export const MovieView = ({ movie, onBackClick }) => {
 };
 
 MovieView.propTypes = {
-    movie: PropTypes.shape({
+    movies: PropTypes.shape({
         ImagePath: PropTypes.string.isRequired,
         Title: PropTypes.string.isRequired,
         releaseYear: PropTypes.number.isRequired,
@@ -76,6 +82,5 @@ MovieView.propTypes = {
         Description: PropTypes.string.isRequired,
         Actors: PropTypes.array,
         Director: PropTypes.shape({ Name: PropTypes.string.isRequired }),
-    }).isRequired,
-    onBackClick: PropTypes.func.isRequired
+    }).isRequired
 };
