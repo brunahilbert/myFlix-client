@@ -14,5 +14,6 @@ This app will allow a user to do the following:
 - SCSS
 - HTML
 - Parcel
+- Bootstrap
 
 Link:  [https://github.com/brunahilbert/myMovieBox-client/](https://github.com/brunahilbert/myMovieBox-client)
