@@ -9,16 +9,18 @@ import { Row, Col } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import './main-view.scss'
+import { SearchBar } from "../search-bar/search-bar";
 
 export const MainView = () => {
     // the function assigned returns the visual representation of the component—in other words, the function renders what will be displayed on the screen.
     const [movies, setMovies] = useState([]);
-    // const [selectedMovie, setSelectedMovie] = useState(null);
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
     const [favoriteMovies, setFavoriteMovies] = useState([]);
+    const [query, setQuery] = useState ("")
+
 
     const clearStoredUser = () => {
         setUser(null);
@@ -32,6 +34,7 @@ export const MainView = () => {
     }
 
     useEffect(() => {
+
         if (!token) {
             return;
         }
@@ -75,6 +78,15 @@ export const MainView = () => {
                 }
             });
     }
+
+    const filteredMovies = movies.filter((movie) => {
+        return(
+            movie.Title.toLowerCase().includes(query.toLowerCase()) ||
+            movie.Genre.Name.toLowerCase().includes(query.toLowerCase()) ||
+            movie.Director.Name.toLowerCase().includes(query.toLowerCase())
+        )
+     })
+
 
     return (
         <BrowserRouter>
@@ -159,7 +171,10 @@ export const MainView = () => {
                                 <div>The list is empty!</div>
                             ) : (
                                 <>
-                                    {movies.map((movie) => (
+                                    <Row className="search-bar-row ">
+                                        <SearchBar query={query} setQuery={setQuery} />
+                                    </Row>
+                                    {filteredMovies.map((movie) => (
                                         <Col className="p-3 movie-card" key={movie._id} sm={6} md={4} lg={3} xl={2}>
                                             <MovieCard
                                                 movie={movie}
