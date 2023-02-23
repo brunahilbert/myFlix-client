@@ -21,7 +21,7 @@ export const MovieCard = ({ movie, isFavorite, setFavorite }) => {
         <Card.Text>{description + "..."}</Card.Text>
         <div className="mt-auto">
           <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
-            <Button className="mx-2" variant="primary" >View</Button>
+            <Button className="mx-2" variant="primary" onClick={() => window.scrollTo(0, 0)}>View</Button>
           </Link>
           <Button className="btn-primary mx-2" onClick={() => setFavorite(!isFavorite, movie)}>{isFavorite ? '★' : '☆'}</Button>
         </div>

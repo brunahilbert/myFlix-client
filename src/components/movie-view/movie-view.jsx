@@ -49,7 +49,7 @@ export const MovieView = ({ movies, favoriteMovies, setFavorite }) => {
                             </div>
                             <div>
                                 <Link to={`/`}>
-                                    <Button className="back-button">Back</Button>
+                                    <Button className="back-button" onClick={() => window.scrollTo(0, 0)}>Back</Button>
                                 </Link>
                                 <Button className="btn-primary mx-3" onClick={() => setFavorite(!isFavorite, movie)}>{isFavorite ? '★' : '☆'}</Button>
                             </div>
