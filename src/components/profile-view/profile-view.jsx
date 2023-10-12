@@ -12,7 +12,7 @@ export const ProfileView = ({ user, movies, favoriteMovies, setFavorite, token, 
     const [showUpdateUserForm, setShowUpdateUserForm] = useState(false);
 
     const deleteUser = () => {
-        fetch(`https://my-movie-box.herokuapp.com/users/${user.Username}`, {
+        fetch(`https://my-movie-box-211a3d432647.herokuapp.com/users/${user.Username}`, {
             method: "DELETE",
             headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
         })
@@ -29,7 +29,7 @@ export const ProfileView = ({ user, movies, favoriteMovies, setFavorite, token, 
 
     const updateUser = (userData) => {
 
-        fetch(`https://my-movie-box.herokuapp.com/users/${user.Username}`, {
+        fetch(`https://my-movie-box-211a3d432647.herokuapp.com/users/${user.Username}`, {
             method: "PUT",
             headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
             body: JSON.stringify(userData)

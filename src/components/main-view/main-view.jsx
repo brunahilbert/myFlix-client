@@ -40,7 +40,7 @@ export const MainView = () => {
         }
 
         const getMovies = (token) => {
-            fetch("https://my-movie-box.herokuapp.com/movies", {
+            fetch("https://my-movie-box-211a3d432647.herokuapp.com/movies", {
                 headers: { Authorization: `Bearer ${token}` }
             })
                 .then((response) => response.json())
@@ -51,7 +51,7 @@ export const MainView = () => {
         getMovies(token)
 
         const getUser = (token) => {
-            fetch(`https://my-movie-box.herokuapp.com/users/${storedUser.Username}`, {
+            fetch(`https://my-movie-box-211a3d432647.herokuapp.com/users/${storedUser.Username}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
                 .then((response) => response.json())
@@ -66,7 +66,7 @@ export const MainView = () => {
 
     const setFavorite = (isFavorite, movie) => {
         const method = isFavorite ? 'POST' : 'DELETE'
-        fetch(`https://my-movie-box.herokuapp.com/user/${storedUser.Username}/movies/${movie._id}`, {
+        fetch(`https://my-movie-box-211a3d432647.herokuapp.com/user/${storedUser.Username}/movies/${movie._id}`, {
             method,
             headers: { Authorization: `Bearer ${storedToken}` }
         })
